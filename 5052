@@ -1,0 +1,49 @@
+#include <iostream>
+#include <set>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	int t;
+	cin >> t;
+
+	while (t--) {
+		set<string> s;
+		vector <string> stringset;
+		int n;
+		bool flag = true;
+
+		cin >> n;
+
+		for (int i = 0; i < n; i++) {
+			string str;
+			cin >> str;
+
+			stringset.push_back(str);
+		}
+		sort(stringset.begin(), stringset.end());
+		s.insert(stringset[0]);
+		
+
+		for (int i = 1; i < n; i++) {
+			int len = stringset[i].size();
+
+			for (int j = 1; j <= len; j++) {
+				if (s.count(stringset[i].substr(0, j))) {
+					flag = false;
+					break;
+				}
+			}
+			if (!flag) break;
+			s.insert(stringset[i]);
+		}
+		if (flag) cout << "YES" << "\n";
+		else cout << "NO" << "\n";
+
+	}
+
+
+	return 0;
+}
