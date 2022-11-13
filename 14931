@@ -1,0 +1,35 @@
+#include <iostream> //BY brute force alg.
+#include <algorithm>
+#include <vector>
+using ll = long long;
+using namespace std;
+int l;
+int arr[1000010];
+ll ans = -50000000000;
+int d;
+vector <pair<int, int>> v; //점수 d
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> l;
+
+	for (int i = 1; i <= l; i++) cin >> arr[i];
+
+	
+	for (int i = 1; i <= l; i++) {
+		ll cur = 0;
+		for (int j = i; j <= l; j += i) {
+			cur += arr[j];
+		}
+		if (ans < cur) {
+			ans = cur;
+			d = i;
+		}
+	}
+	if (ans <= 0) cout << "0 0" << "\n";
+	else cout << d << " " << ans;
+
+	return 0;
+}
