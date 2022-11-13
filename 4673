@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+bool check[10005]; //false is self number
+
+int main() {
+	for (int i = 1; i <= 10000; i++) {
+		if (!check[i]) {
+			int cur = i;
+			while (1) {
+				int a = cur / 10000;
+				int b = (cur - 10000 * a) / 1000;
+				int c = (cur - 10000 * a - 1000 * b) / 100;
+				int d = (cur - 10000 * a - 1000 * b - 100 * c) / 10;
+				int e = cur % 10;
+				
+				cur += (a + b + c + d + e);
+
+				if (cur > 10000) break;
+				
+				check[cur] = true; //2 4 8 16 23 28
+			}
+		}
+	}
+	for (int i = 1; i <= 10000; i++) {
+		if (!check[i]) cout << i << "\n";
+	}
+
+	return 0;
+}

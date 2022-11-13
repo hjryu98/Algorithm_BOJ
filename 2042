@@ -1,0 +1,70 @@
+#include <iostream> //구간 합 구하기 by segment tree
+#include <vector>
+#define ll long long
+
+using namespace std;
+int n, m, k;
+ll arr[1000010];
+vector <ll> tree(4000010);
+
+ll makesegtree(int node, int s, int e) {
+	if (s == e) return tree[node] = arr[s];
+
+	int mid = (s + e) / 2;
+	ll left = makesegtree(node * 2, s, mid);
+	ll right = makesegtree(node * 2 + 1, mid + 1, e);
+	tree[node] = left + right;
+	return tree[node];
+
+}
+ll update(int node, int s, int e, int idx, ll val) {
+	if (idx < s || e < idx) return tree[node];
+
+	if (s == e) {
+		tree[node] = val;
+		return tree[node];
+	}
+
+	else {
+		int mid = (s + e) / 2;
+		return tree[node] = update(node * 2, s, mid, idx, val) + update(node * 2 + 1, mid + 1, e, idx, val);
+	}
+}
+
+ll sum(int node, int s, int e, int y, ll z) {
+	if (z < s || y > e) return 0;
+
+	if (y <= s && e <= z) {
+		return tree[node];
+	}
+	else {
+		int mid = (s + e) / 2;
+		return sum(node * 2, s, mid, y, z) + sum(node * 2 + 1, mid + 1, e, y, z);
+	}
+}
+
+int main() {
+	cin >> n >> m >> k;
+
+	for (int i = 1; i <= n; i++) cin >> arr[i];
+
+	makesegtree(1, 1, n);
+
+	int a = m + k;
+	while (a--) {
+		int x, y;
+		ll z;
+
+		cin >> x >> y >> z;
+
+		if (x == 1) {
+			update(1, 1, n, y, z);
+		}
+		else {
+			ll ans = sum(1, 1, n, y, z);
+			cout << ans << "\n";
+		}
+	}
+
+	return 0;
+}

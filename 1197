@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector <pair<int,pair<int, int>>> vec;
+int par[100010]; //부모 노드의 정보 저장
+
+int findroot(int x) {//x의 부모노드 찾기(경로 압축)
+	if (x == par[x]) return x;
+	else return par[x] = findroot(par[x]);
+}
+
+
+void union_(int x, int y) { //union 연결
+	int rx = findroot(x);
+	int ry = findroot(y);
+
+	if (rx > ry) par[rx] = ry; //union-by-rank
+	else par[ry] = rx;
+}
+
+bool find(int x, int y) { //union인지 판별
+	int rx = findroot(x);
+	int ry = findroot(y);
+
+	return rx != ry;
+}
+
+
+
+int main() {
+	int v, e;
+	int ans = 0;
+	cin >> v >> e;
+
+	for (int i = 0; i < e; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+
+		vec.push_back({ c,{ a,b } });
+		vec.push_back({ c,{ b,a } });
+	}
+	sort(vec.begin(), vec.end());
+
+	for (int i = 0; i < 100010; i++) par[i] = i;
+
+	for (int i = 0; i < vec.size(); i++) {
+		if (find(vec[i].second.first, vec[i].second.second)) { //연결이 안 되어있다면
+			union_(vec[i].second.first, vec[i].second.second);
+			ans += vec[i].first;
+		}
+	}
+	cout << ans;
+
+
+
+	return 0;
+}
