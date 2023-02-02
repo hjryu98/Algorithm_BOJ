@@ -1,35 +1,31 @@
+#define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 #include <iostream>
-#include <algorithm>
 #include <stack>
+#include <algorithm>
 using namespace std;
 int n;
-int arr[1000005];
+int res[1000002];
 stack <pair<int, int>> st;
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+	fastio;
 	cin >> n;
-
-	for (int i = 0; i < n; i++) {
+	for (int i = 1; i <= n; i++) {
 		int a;
 		cin >> a;
-		if (st.empty()) st.push({ a , i });
-
+		if (st.empty()) st.push({ a, i });
 		else {
-			if (a > st.top().first) {
+			if (st.top().first < a) {
 				while (!st.empty() && st.top().first < a) {
-					arr[st.top().second] = a;
+					res[st.top().second] = a;
 					st.pop();
 				}
 			}
 			st.push({ a, i });
 		}
 	}
-
-	for (int i = 0; i < n; i++) {
-		if (arr[i] == 0) cout << -1 << " ";
-		else cout << arr[i] << " ";
+	for (int i = 1; i <= n; i++) {
+		if (res[i] == 0) cout << -1 << " ";
+		else cout << res[i] << " ";
 	}
 
 	return 0;
