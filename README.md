@@ -1,2 +1,2 @@
 # Algorithm_solving_code
-algorithm problem solving
+BOJ 문제 풀이
